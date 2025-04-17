@@ -131,5 +131,5 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 ## ✨ Author
 
-Developed by [Your Name](https://github.com/Kipkerich)
+Developed by [Kipkerich](https://github.com/Kipkerich)
 
