@@ -1,21 +1,77 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 {% block content %}
-<h2>To-Do List (Not Saved)</h2>
-<ul id="todo-list"></ul>
-<input type="text" id="new-item" placeholder="Add a new task">
-<button onclick="addItem()">Add</button>
+
+<div class="container mt-5">
+    <h2 class="mb-4">To-Do List </h2>
+    
+    <ul id="todo-list" class="list-group mb-3"></ul>
+    
+    <div class="input-group">
+        <input type="text" id="new-item" class="form-control" placeholder="Add a new task">
+        <div class="input-group-append">
+            <button class="btn btn-primary" onclick="addItem()">Add</button>
+        </div>
+    </div>
+</div>
 
 <script>
     const list = document.getElementById('todo-list');
+
     function addItem() {
         const input = document.getElementById('new-item');
-        if (input.value) {
+        const value = input.value.trim();
+        if (value) {
             const li = document.createElement('li');
-            li.textContent = input.value;
+            li.className = "list-group-item d-flex justify-content-between align-items-center";
+
+            const textSpan = document.createElement('span');
+            textSpan.textContent = value;
+            textSpan.className = "flex-grow-1";
+
+            const inputEdit = document.createElement('input');
+            inputEdit.type = 'text';
+            inputEdit.value = value;
+            inputEdit.className = 'form-control d-none mr-2';
+            inputEdit.style.maxWidth = '70%';
+
+            const editBtn = document.createElement('button');
+            editBtn.textContent = 'Edit';
+            editBtn.className = "btn btn-sm btn-warning mr-2";
+            editBtn.onclick = function () {
+                textSpan.classList.toggle('d-none');
+                inputEdit.classList.toggle('d-none');
+                editBtn.classList.toggle('d-none');
+                saveBtn.classList.toggle('d-none');
+            };
+
+            const saveBtn = document.createElement('button');
+            saveBtn.textContent = 'Save';
+            saveBtn.className = "btn btn-sm btn-success mr-2 d-none";
+            saveBtn.onclick = function () {
+                textSpan.textContent = inputEdit.value;
+                textSpan.classList.remove('d-none');
+                inputEdit.classList.add('d-none');
+                saveBtn.classList.add('d-none');
+                editBtn.classList.remove('d-none');
+            };
+
+            const removeBtn = document.createElement('button');
+            removeBtn.textContent = '×';
+            removeBtn.className = "btn btn-sm btn-danger";
+            removeBtn.onclick = () => li.remove();
+
+            li.appendChild(textSpan);
+            li.appendChild(inputEdit);
+            li.appendChild(editBtn);
+            li.appendChild(saveBtn);
+            li.appendChild(removeBtn);
+
             list.appendChild(li);
             input.value = '';
         }
     }
 </script>
+
+
 {% endblock %}
